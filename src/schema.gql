@@ -1,0 +1,50 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Cat {
+  id: Int!
+  name: String
+  color: String
+  breed: String
+}
+
+
+type Query {
+  cats: [Cat!]!
+  cat(id: Int!): Cat!
+}
+
+type Mutation {
+  createCat(createCatInput: CreateCatInput!): Cat!
+  updateCat(updateCatInput: UpdateCatInput!): Cat!
+  removeCat(id: Int!): Cat!
+}
+
+input CreateCatInput {
+  """ID of the cat"""
+  id: Int!
+
+  """Name of the cat"""
+  name: String!
+
+  """Breed of the cat"""
+  breed: String!
+
+  """Color of the cat"""
+  color: String!
+}
+
+input UpdateCatInput {
+  """ID of the cat"""
+  id: Int
+
+  """Name of the cat"""
+  name: String
+
+  """Breed of the cat"""
+  breed: String
+
+  """Color of the cat"""
+  color: String
+}
