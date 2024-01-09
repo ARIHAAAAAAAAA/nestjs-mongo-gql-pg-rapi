@@ -2,29 +2,25 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Cat {
-  id: Int!
-  name: String
-  color: String
-  breed: String
+type CatType {
+  _id: ID!
+  name: String!
+  color: String!
+  breed: String!
 }
 
-
 type Query {
-  cats: [Cat!]!
-  cat(id: Int!): Cat!
+  cats: [CatType!]!
+  cat(id: Int!): CatType!
 }
 
 type Mutation {
-  createCat(createCatInput: CreateCatInput!): Cat!
-  updateCat(updateCatInput: UpdateCatInput!): Cat!
-  removeCat(id: Int!): Cat!
+  createCat(createCatInput: CatInput!): CatType!
+  updateCat(updateCatInput: UpdateCatInput!): CatType!
+  removeCat(id: Int!): CatType!
 }
 
-input CreateCatInput {
-  """ID of the cat"""
-  id: Int!
-
+input CatInput {
   """Name of the cat"""
   name: String!
 
@@ -37,14 +33,14 @@ input CreateCatInput {
 
 input UpdateCatInput {
   """ID of the cat"""
-  id: Int
+  _id: String!
 
   """Name of the cat"""
-  name: String
+  name: String!
 
   """Breed of the cat"""
-  breed: String
+  breed: String!
 
   """Color of the cat"""
-  color: String
+  color: String!
 }

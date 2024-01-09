@@ -13,12 +13,12 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     this.usersService.createUser(createUserDto);
-    return "Created successfully"
+    return 'Created successfully';
   }
 
   @Get()
@@ -34,12 +34,12 @@ export class UsersController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     this.usersService.updateUser(+id, updateUserDto);
-    return "successfully updated"
+    return 'successfully updated';
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-     this.usersService.removeUser(+id);
-     return "successfully updated"
+    this.usersService.removeUser(+id);
+    return 'successfully updated';
   }
 }

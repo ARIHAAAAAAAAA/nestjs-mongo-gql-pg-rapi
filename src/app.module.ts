@@ -9,25 +9,30 @@ import { join } from 'path';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import mongodbConfig from './cats/config/mongodb.config';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { AuthModule } from './auth/auth.module';
+
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [mongodbConfig],
-      isGlobal: true
-   }),
-   MongooseModule.forRootAsync({
-    inject: [ConfigService],
-    useFactory: async (configService: ConfigService) => ({
-      uri: configService.get('mongodb').uri
-    })
-  }),
+      isGlobal: true,
+    }),
+    MongooseModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get('mongodb').uri,
+      }),
+    }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       include: [CatsModule],
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      // playground: true,
+      playground: false,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
+
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -41,6 +46,8 @@ import mongodbConfig from './cats/config/mongodb.config';
     }),
     UsersModule,
     CatsModule,
+    AuthModule,
   ],
+ 
 })
-export class AppModule { }
+export class AppModule {}

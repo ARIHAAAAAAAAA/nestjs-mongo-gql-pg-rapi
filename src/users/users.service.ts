@@ -12,8 +12,7 @@ export class UsersService {
   ) {}
 
   createUser(createUserDto: CreateUserDto): Promise<User> {
-    const user = this.userRepository.create(createUserDto);
-    return this.userRepository.save(user);
+    return this.userRepository.save(createUserDto);
   }
 
   findAllUser(): Promise<User[]> {
@@ -25,7 +24,7 @@ export class UsersService {
   }
 
   updateUser(id: number, updateUserDto: UpdateUserDto): Promise<UpdateResult> {
-    return this.userRepository.update (id, updateUserDto );
+    return this.userRepository.update(id, updateUserDto);
   }
 
   removeUser(id: number): Promise<{ affected?: number }> {

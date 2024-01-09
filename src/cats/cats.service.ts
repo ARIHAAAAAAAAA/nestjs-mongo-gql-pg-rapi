@@ -1,38 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCatInput } from './dto/create-cat.input';
-import { UpdateCatInput } from './dto/update-cat.input';
-import { Cat, CatDocument } from './models/cats.model';
+import { CatInput } from './dto/create-cat.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-
-// const catsArray: Cat[] = [
-//   { id: 1, name: 'Fluffy', color: 'White', breed: 'Persian' },
-//   { id: 2, name: 'Whiskers', color: 'Tabby', breed: 'Domestic Shorthair' },
-//   { id: 3, name: 'Mittens', color: 'Black', breed: 'Siamese' },
-//   { id: 4, name: 'Tiger', color: 'Orange', breed: 'Bengal' },
-//   { id: 5, name: 'Shadow', color: 'Gray', breed: 'Maine Coon' },
-// ];
-
+import { UpdateCatInput } from './dto/update-cat.input';
+import { CatSchema } from './mongo/catSchema';
 
 @Injectable()
 export class CatsService {
-  constructor(@InjectModel(Cat.name) private catModel: Model<CatDocument>) { }
-  create(createCatInput: CreateCatInput) {
-    const newBook = new this.catModel(createCatInput);
-        return newBook.save();
-    
+  constructor(
+    @InjectModel(CatSchema.name) private catModel: Model<CatSchema>,
+  ) {}
+
+  async create(createCatInput: CatInput): Promise<CatSchema> {
+    const newCat = new this.catModel(createCatInput);
+    console.log('newCat', newCat);
+    return newCat.save();
   }
 
-  async findAll(): Promise<Cat[]>  {
+  async findAll(): Promise<CatSchema[]> {
     return this.catModel.find().exec();
   }
 
-  async findOne(id: number):Promise<Cat>  {
+  async findOne(id: number): Promise<CatSchema> {
     return this.catModel.findById(id).exec();
   }
 
-  update(id: number, updateCatInput: UpdateCatInput) {
-    return this.catModel.findByIdAndUpdate(id, updateCatInput, { new: true }).exec();
+  update(id: string, updateCatInput: UpdateCatInput) {
+    return this.catModel
+      .findByIdAndUpdate(id, updateCatInput, { new: true })
+      .exec();
   }
 
   remove(id: number) {

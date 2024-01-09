@@ -1,20 +1,17 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Types } from 'mongoose';
 
-export type CatDocument = Cat & Document;
 @ObjectType()
-@Schema()
-export class Cat {
-  @Field(type => Int)
-  id: number;
+export class CatType {
+  @Field(() => ID)
+  _id?: Types.ObjectId;
 
-  @Field({ nullable: true })
-  name?: string;
+  @Field()
+  name: string;
 
-  @Field({ nullable: true })
-  color?: string;
+  @Field()
+  color: string;
 
-  @Field({ nullable: true })
-  breed?: string;
+  @Field()
+  breed: string;
 }
-export const CatSchema = SchemaFactory.createForClass(Cat)

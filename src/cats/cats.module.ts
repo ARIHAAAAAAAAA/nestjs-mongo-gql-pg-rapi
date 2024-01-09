@@ -2,16 +2,17 @@ import { Module } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CatsResolver } from './cats.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Cat, CatSchema } from './models/cats.model';
+import { CatSchema, CatMongo } from './mongo/catSchema';
 
 @Module({
   providers: [CatsResolver, CatsService],
-  imports: [MongooseModule.forFeature([
-    {
-        name: Cat.name,
-        schema: CatSchema,
-    },
-]),
-],
+  imports: [
+    MongooseModule.forFeature([
+      {
+        name: CatSchema.name,
+        schema: CatMongo,
+      },
+    ]),
+  ],
 })
 export class CatsModule {}
