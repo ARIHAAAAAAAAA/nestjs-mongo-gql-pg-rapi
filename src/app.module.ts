@@ -11,6 +11,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import mongodbConfig from './cats/config/mongodb.config';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { AuthModule } from './auth/auth.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 
 @Module({
@@ -44,6 +45,8 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true,
       logging: true,
     }),
+    CacheModule.register({ isGlobal: true }), 
+
     UsersModule,
     CatsModule,
     AuthModule,

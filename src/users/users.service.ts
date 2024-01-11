@@ -9,18 +9,33 @@ import { Repository, UpdateResult } from 'typeorm';
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-  ) {}
+  ) { }
 
-  createUser(createUserDto: CreateUserDto): Promise<User> {
-    return this.userRepository.save(createUserDto);
+  async createUser(createUserDto: CreateUserDto) {
+    try {
+      const user = this.userRepository.create(createUserDto);
+      const userFromDB = await this.userRepository.save(user);
+      return userFromDB
+    } catch (error) {
+      return Promise.reject(error)
+    }
   }
 
-  findAllUser(): Promise<User[]> {
-    return this.userRepository.find();
+  async findAllUser(): Promise<User[]> {
+    try {
+      const users = await this.userRepository.find();
+      return users;
+    } catch (error) {
+      throw error;
+    }
   }
 
   findOne(id: number) {
     return this.userRepository.findOneBy({ id });
+  }
+
+  findEmail(email: string) {
+    return this.userRepository.findOneBy({ email });
   }
 
   updateUser(id: number, updateUserDto: UpdateUserDto): Promise<UpdateResult> {

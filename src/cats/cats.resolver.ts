@@ -3,16 +3,19 @@ import { CatsService } from './cats.service';
 import { CatType } from './models/cats.model';
 import { CatInput } from './dto/create-cat.input';
 import { UpdateCatInput } from './dto/update-cat.input';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
+// import { Public } from 'src/auth/constants';
 
 @Resolver(() => CatType)
 export class CatsResolver {
   constructor(private readonly catsService: CatsService) {}
-
+  // @Public()
   @Mutation(() => CatType)
   createCat(@Args('createCatInput') createCatInput: CatInput) {
     return this.catsService.create(createCatInput);
   }
-
+  // @UseGuards(AuthGuard)
   @Query(() => [CatType], { name: 'cats' })
   async findAll(): Promise<CatType[]> {
     return this.catsService.findAll();
